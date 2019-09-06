@@ -13,10 +13,8 @@
       </div>
     </div>
     <div class="body-content">
-      <cards v-bind:countries="countries" v-bind:state="state" v-if="this.state == 'cards'" @openModalWindow="openModalWindow"></cards>
-      <div v-else="this.state == 'modalWindow'">
-        <p>{{target}}</p>
-      </div>
+      <cards v-bind:countries="countries" v-bind:state="state" v-if="this.state === 'cards'" @openModalWindow="openModalWindow"></cards>
+      <modal v-if="showModal" @save="getFormData" @close="closeModalWindow"></modal>
     </div>
   </div>
 </template>
@@ -24,7 +22,8 @@
 <script>
     import axios from 'axios'
     import Cards from './Components/Cards.vue'
-    // import Vue from 'vue'
+    import Modal from './Components/Modal.vue'
+    import Vue from 'vue'
 
 export default {
     name: 'app',
@@ -32,7 +31,9 @@ export default {
         return {
             countries: null,
             state: 'cards',
-            target: null
+            showModal: false,
+            targetCard: null,
+            formData: null
         }
     },
     mounted() {
@@ -52,20 +53,41 @@ export default {
     },
     methods: {
         openModalWindow: function(country) {
-            // this.state = 'modalWindow';
-            // this.target = event.target;
-            // console.log(this.countries[country]);
-            // console.log(event.target)
-            // console.log(country)
-            let flag = this.countries[country].flag;
-            console.log(this.countries[country]);
-            Vue.set(this.countries, country, {
-                name: 'Pepega'
+            this.targetCard = country;
+            this.state = 'modal';
+            this.showModal = true
+        },
+        getFormData: function(formData) {
+            this.formData = formData;
+            this.state = 'cards';
+            this.showModal = false;
+            this.changeNewCard();
+        },
+        changeNewCard: function() {
+            Vue.set(this.countries, this.targetCard, {
+                capital: this.checkValue('capital'),
+                flag: this.countries[this.targetCard].flag,
+                name: this.formData.name,
+                population: Number(this.checkValue('population')),
+                region: this.checkValue('region')
             })
+        },
+        checkValue: function(value) {
+            if(this.formData[value] === '') {
+                return this.countries[this.targetCard][value]
+            } else {
+                return this.formData[value]
+            }
+        },
+        closeModalWindow: function () {
+            this.state = 'cards';
+            this.showModal = false;
+            this.targetCard = null
         }
     },
     components: {
-        Cards
+        Cards,
+        Modal
     }
 }
 </script>

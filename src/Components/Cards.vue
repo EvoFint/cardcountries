@@ -11,9 +11,7 @@
               <h5 class="card-title">{{country.name}}</h5>
             </div>
             <div class="col-2">
-<!--              <button>-->
-                <img src="../ico/edit.svg" alt="" style="height: 1.5rem" @click="$emit('openModalWindow', index)">
-<!--              </button>-->
+                <img src="../ico/edit.svg" alt=""  style="height: 1.5rem; cursor: pointer" @click="$emit('openModalWindow', index)">
 
             </div>
           </div>
@@ -65,17 +63,8 @@
   }
   .card {
     min-width: 20%;
-    max-width: 25%;
     margin-bottom: 30px;
   }
-  /*@media (min-width:768px) {*/
-  /*  .card-deck > .card*/
-  /*  {*/
-  /*    width: 25%;*/
-  /*    flex-wrap: wrap;*/
-  /*    flex: initial;*/
-  /*  }*/
-  /*}*/
   .card-columns {
   @include media-breakpoint-only(lg) {
     column-count: 4;
