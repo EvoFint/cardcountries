@@ -56,6 +56,19 @@
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.25);
     margin-bottom: 10px;
   }
+  .card:hover {
+    z-index: 2;
+    transform: scale(1.5);
+    .card-title {
+      white-space: normal;
+      overflow: visible;
+    };
+    .txt {
+      font-size: 12px;
+      white-space: normal;
+      overflow: visible;
+    }
+  }
   .card-title {
     white-space:nowrap;
     overflow: hidden;
